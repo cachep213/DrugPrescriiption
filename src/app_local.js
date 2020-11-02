@@ -14,6 +14,7 @@ const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https'}
 
 const productsDOM = document.querySelector(".products-center");
 const image_bnDOM = document.querySelector(".benhan_center");
+const DATA_bnDOM = document.querySelector(".DATA_center");
 const address_nav = document.querySelector(".address")
 
 
@@ -44,6 +45,7 @@ document.addEventListener("DOMContentLoaded",async () => {
     });
     contracts.loadimage().then( (ima_res)=>{
      contracts.dis_image_bnDOM(ima_res);
+     contracts.dis_DATA_bnDOM(ima_res);
     })
   });
 
@@ -115,7 +117,7 @@ class contract {
       //-----------------------------------------------------------------------
       //load don thuoc
       const productCout = await gymmarketplace.methods.productCount().call()
-      console.log("produc", productCout);
+      // console.log("produc", productCout);
       // Load product
       for (var i = 1; i <= productCout; i++) {
         const don = await gymmarketplace.methods.products(i).call()
@@ -178,6 +180,33 @@ class contract {
       image_bnDOM.innerHTML = result;
     }
 }
+  dis_DATA_bnDOM(image_bnsdt){
+  if(image_bnsdt.length != 0){
+
+    let result = "";
+    // console.log(image_bns);
+    image_bnsdt.forEach( image_bnd =>{
+      if(image_bnd.type_im == 3){
+        // console.log(image_bn)
+        result += `
+              <div class="img-container">
+                <img 
+                  src=http://ipfs.infura.io/ipfs/${image_bnd.ahash}
+                  alt="product"
+                  class="product-img"
+                  style={{maxWidth = '420px'}}
+                  />
+                  <h5>${image_bnd.description}</h5>
+                <h5>${image_bnd.id_bn}</h5>
+              </div>
+
+        `;
+      }
+    })
+  
+    DATA_bnDOM.innerHTML = result;
+  }
+}
 
   //cart -----------------------------------------------------------------------
   getBagButtons(produts) {
@@ -189,12 +218,12 @@ class contract {
       button.addEventListener("click", event => {
         // disable button
         id_but = button.dataset.id;
-        console.log(id_but);
+        // console.log(id_but);
         event.target.innerText = "In Bag";
         // event.target.disabled = true;
         console.log(id_but)
         chose = produts[id_but-1]; 
-        console.log(chose)
+        // console.log(chose)
         this.setCartValues(chose);
         this.addCartItem(chose);
         this.showCart()

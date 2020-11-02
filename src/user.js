@@ -5,7 +5,8 @@ import Gymmarketplace from './abis/Gymmarketplace.json'
 import Identicon from 'identicon.js';
 //Declare IPFS
 const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https'}) 
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https'});
+
 const contract_add_kovan = '0x0005069DE1ef6021695Fc4249A84E3E003A315f2';
 
 const address_nav = document.querySelector(".address");
@@ -15,6 +16,7 @@ let img_cer = [];
 
 
 async function show_address(){
+    window.web3 = new Web3(window.ethereum)
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts();
     let add = accounts[0];
@@ -29,11 +31,11 @@ async function show_address(){
 class load_and_show{
   
 async load_img(){
- 
+  window.web3 = new Web3(window.ethereum)
   let img_count;
-  const web3 = window.web3
+  const web3 = window.web3;
   // Network ID
-  const networkId = await web3.eth.net.getId()
+  // const networkId = await web3.eth.net.getId()
   // const networkData = Gymmarketplace.networks[networkId]
   // if(networkData) {
     const gymmarketplace = new web3.eth.Contract(Gymmarketplace.abi, contract_add_kovan)
@@ -79,12 +81,12 @@ show_img_cer(input_datas){
 async function loaddrugData() {
 
   let drug_Cout;
-  
+  window.web3 = new Web3(window.ethereum)
   const web3 = window.web3
   // // Load account
-  const accounts = await web3.eth.getAccounts()
+  // const accounts = await web3.eth.getAccounts()
   // Network ID
-  const networkId = await web3.eth.net.getId()
+  // const networkId = await web3.eth.net.getId()
   // const networkData = Gymmarketplace.networks[networkId]
   // if(networkData) {
     const gymmarketplace = new web3.eth.Contract(Gymmarketplace.abi,contract_add_kovan)
@@ -181,6 +183,7 @@ class upload_drug{
     this.drug_lon = drug_lon;
   }
   async drug_track() {
+    window.web3 = new Web3(window.ethereum)
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts();
     // const networkId = await web3.eth.net.getId();
